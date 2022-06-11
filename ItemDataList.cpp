@@ -98,6 +98,13 @@ void ItemDataList::createDummyData()
         item.valueDouble = i * 0.01;
         item.valueString = QString("string %1").arg(i+1);
 
-        _items.append(item);
+        append(item);
     }
+}
+
+bool ItemDataList::isChecked(int index)
+{
+    if(index <0 || index >= _items.count()) return false;
+
+    return _items[index].valueBool;
 }

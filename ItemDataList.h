@@ -13,18 +13,22 @@ class ItemDataList : public QObject
 public:
     explicit ItemDataList(QObject *parent = nullptr);
 
-
-    int getCount() const;
+    Q_INVOKABLE int getCount() const;
 
     QVariant getItemValue(int index, int role);
     bool setItemValue(int index, int role, const QVariant &value);
 
     int append(ItemData &item);
-    void removeAt(int index);
-    void removeAll();
+
+    Q_INVOKABLE void removeAt(int index);
+
+    Q_INVOKABLE void removeAll();
 
 public slots:
 
+    void createDummyData();
+
+    bool isChecked(int index);
 
 signals:
 
@@ -43,7 +47,6 @@ signals:
 private:
     QList<ItemData> _items;
 
-    void createDummyData();
 };
 
 #endif // ITEMDATALIST_H

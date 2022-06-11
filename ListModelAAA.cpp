@@ -15,7 +15,7 @@ ListModelAAA::ListModelAAA(QObject *parent)
 
 int ListModelAAA::rowCount(const QModelIndex &parent) const
 {
-    qDebug() << "rowCount()";
+    //qDebug() << "rowCount()";
 
     if (parent.isValid()) return 0; // ?
     if (!_list) return 0;
@@ -26,7 +26,7 @@ int ListModelAAA::rowCount(const QModelIndex &parent) const
 
 QVariant ListModelAAA::data(const QModelIndex &index, int role) const
 {
-    qDebug() << "data()";
+    //qDebug() << "data()";
 
     if (index.isValid() == false) return QVariant();
     if (!_list) return QVariant();
