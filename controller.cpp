@@ -1,6 +1,9 @@
-#include "controller.h"
+﻿#include "controller.h"
 
 #include <QTime>
+#include <QDebug>
+#include <QThread>
+#include <QCoreApplication>
 
 #include "ItemData.h"
 #include "ItemDataList.h"
@@ -24,6 +27,8 @@ void Controller::stopTimer()
 
 void Controller::onReadData()
 {
+//    qDebug() << qPrintable(QTime::currentTime().toString("hh:mm:ss.zzz")) << " -- begin";
+
 
     for(int i=0; i<_list->getCount(); i++)
     {
@@ -32,5 +37,16 @@ void Controller::onReadData()
         _list->setItemValue(i, Role_Double, QVariant(value));
     }
 
+      // 故意卡住程序
+//    QThread::msleep(2000);
+
+//    for(int i=0; i< 2000; i++)
+//    {
+//        QCoreApplication::processEvents();
+//        QThread::msleep(1);
+//    }
+
+
+//    qDebug() << qPrintable(QTime::currentTime().toString("hh:mm:ss.zzz")) << " -- end";
 }
 
