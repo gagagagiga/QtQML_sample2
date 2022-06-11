@@ -1,54 +1,33 @@
 ﻿#include "ListModelAAA.h"
+
+#include <QDebug>
+
 #include "ItemDataList.h"
 
-ListModelAAA::ListModelAAA(ItemDataList* list, QObject *parent)
+ListModelAAA::ListModelAAA(QObject *parent)
     : QAbstractListModel(parent)
-    , _list(list)
+    , _list(nullptr)
 {
-    beginResetModel();
 
-    connect(_list, &ItemDataList::beginResetModel, this, [=]() {
-        beginResetModel();
-    });
-
-    connect(_list, &ItemDataList::endResetModel, this, [=]() {
-        endResetModel();
-    });
-
-    connect(_list, &ItemDataList::beginInsertRows, this, [=]() {
-        const int index = _list->getCount();
-        beginInsertRows(QModelIndex(), index, index);
-    });
-    connect(_list, &ItemDataList::endInsertRows, this, [=]() {
-        endInsertRows();
-    });
-
-    connect(_list, &ItemDataList::beginRemoveRows, this, [=](int index) {
-        beginRemoveRows(QModelIndex(), index, index);
-    });
-    connect(_list, &ItemDataList::endRemoveRows, this, [=]() {
-        endRemoveRows();
-    });
-
-    connect(_list, &ItemDataList::dataChanged, this, [=](int index, int role){
-        emit dataChanged(this->index(index, 0), this->index(index, 0), QVector<int>() << role);
-    });
-
-    endResetModel();
 }
 
 // 實作 QAbstractListModel 的 virtual functions -------------------------
 
 int ListModelAAA::rowCount(const QModelIndex &parent) const
 {
+    qDebug() << "rowCount()";
+
     if (parent.isValid()) return 0; // ?
     if (!_list) return 0;
 
-    return _list->getCount();
+    int count = _list->getCount();
+    return count;
 }
 
 QVariant ListModelAAA::data(const QModelIndex &index, int role) const
 {
+    qDebug() << "data()";
+
     if (index.isValid() == false) return QVariant();
     if (!_list) return QVariant();
 
@@ -83,3 +62,54 @@ QHash<int, QByteArray> ListModelAAA::roleNames() const
 }
 
 // 實作 QAbstractListModel 的 virtual functions -------------------------
+
+
+ItemDataList *ListModelAAA::itemDataList() const
+{
+    return _list;
+}
+
+
+
+void ListModelAAA::setItemDataList(ItemDataList *list)
+{
+    if(!list) return;
+
+    beginResetModel();
+
+    if (_list != nullptr) _list->disconnect(this);
+
+    _list = list;
+
+
+    connect(_list, &ItemDataList::beginResetModel, this, [=]() {
+        beginResetModel();
+    });
+
+    connect(_list, &ItemDataList::endResetModel, this, [=]() {
+        endResetModel();
+    });
+
+    connect(_list, &ItemDataList::beginInsertRows, this, [=]() {
+        const int index = _list->getCount();
+        beginInsertRows(QModelIndex(), index, index);
+    });
+    connect(_list, &ItemDataList::endInsertRows, this, [=]() {
+        endInsertRows();
+    });
+
+    connect(_list, &ItemDataList::beginRemoveRows, this, [=](int index) {
+        beginRemoveRows(QModelIndex(), index, index);
+    });
+    connect(_list, &ItemDataList::endRemoveRows, this, [=]() {
+        endRemoveRows();
+    });
+
+    connect(_list, &ItemDataList::dataChanged, this, [=](int index, int role){
+        emit dataChanged(this->index(index, 0), this->index(index, 0), QVector<int>() << role);
+    });
+
+    endResetModel();
+
+    emit itemDataListChanged();
+}

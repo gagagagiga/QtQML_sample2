@@ -8,8 +8,10 @@ class ItemDataList;
 class ListModelAAA : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(ItemDataList * itemDataList READ itemDataList WRITE setItemDataList NOTIFY itemDataListChanged)
+
 public:
-    explicit ListModelAAA(ItemDataList* list, QObject *parent = nullptr);
+    explicit ListModelAAA(QObject *parent = nullptr);
 
     // 實作 QAbstractListModel 的 virtual functions -------------------------
 
@@ -24,6 +26,13 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     // 實作 QAbstractListModel 的 virtual functions -------------------------
+
+
+    ItemDataList * itemDataList() const;
+    void setItemDataList(ItemDataList *list);
+
+signals:
+    void itemDataListChanged();
 
 private:
     ItemDataList *_list;

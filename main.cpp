@@ -1,15 +1,36 @@
 ﻿#include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
+#include "ItemDataList.h"
+#include "ListModelAAA.h"
 
 int main(int argc, char *argv[])
 {
+    //----------------------------------------------------------------
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
+    //----------------------------------------------------------------
 
+
+    qmlRegisterType<ListModelAAA>("UriAAA", 1, 0, "ListModel_AAA");
+
+    qmlRegisterUncreatableType<ItemDataList>("UriAAA", 1, 0, "ItemDataList_AAA",
+        QStringLiteral("ItemDataList should not be created in QML"));
+    ItemDataList list;
+
+
+    //----------------------------------------------------------------
     QQmlApplicationEngine engine;
+    //----------------------------------------------------------------
+
+
+    engine.rootContext()->setContextProperty("list_AAA", &list);
+
+
+    //----------------------------------------------------------------
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
@@ -19,4 +40,5 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     return app.exec();
+    //----------------------------------------------------------------
 }

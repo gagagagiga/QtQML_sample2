@@ -4,6 +4,7 @@ ItemDataList::ItemDataList(QObject *parent)
     : QObject{parent}
 {
     _items.clear();
+    createDummyData();
 }
 
 
@@ -84,4 +85,19 @@ void ItemDataList::removeAll()
     _items.clear();
 
     emit endResetModel();
+}
+
+void ItemDataList::createDummyData()
+{
+    for(int i=0; i<10; i++)
+    {
+        ItemData item;
+        item.valueBool = true;
+        item.valueInt = i;
+        item.valueFloat = i * 0.1;
+        item.valueDouble = i * 0.01;
+        item.valueString = QString("string %1").arg(i+1);
+
+        _items.append(item);
+    }
 }

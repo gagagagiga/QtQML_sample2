@@ -42,6 +42,8 @@ signals:
 
 private:
     QList<ItemData> _items;
+
+    void createDummyData();
 };
 
 #endif // ITEMDATALIST_H
