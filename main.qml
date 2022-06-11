@@ -63,7 +63,7 @@ Window {
 
                         Label {
                             text: model.roleDouble
-                            width: 60
+                            width: 100
                         }
 
                         TextField {
@@ -113,7 +113,7 @@ Window {
 
                         Label {
                             text: model.roleDouble
-                            width: 60
+                            width: 100
                         }
 
                         TextField {
@@ -160,6 +160,16 @@ Window {
                     }
 
                 }
+            }
+
+            Button {
+                text:"Start Timer"
+                onClicked: controller_AAA.startTimer()
+            }
+
+            Button {
+                text: "Stop Timer"
+                onClicked: controller_AAA.stopTimer()
             }
         }
     }

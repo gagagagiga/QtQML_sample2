@@ -4,6 +4,7 @@
 
 #include "ItemDataList.h"
 #include "ListModelAAA.h"
+#include "controller.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,6 +22,9 @@ int main(int argc, char *argv[])
         QStringLiteral("ItemDataList should not be created in QML"));
     ItemDataList list;
 
+    qmlRegisterUncreatableType<Controller>("UriAAA", 1, 0, "Controller_AAA",
+        QStringLiteral("Controller should not be created in QML"));
+    Controller controller(&list);
 
     //----------------------------------------------------------------
     QQmlApplicationEngine engine;
@@ -29,6 +33,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("list_AAA", &list);
 
+    engine.rootContext()->setContextProperty("controller_AAA", &controller);
 
     //----------------------------------------------------------------
     const QUrl url(QStringLiteral("qrc:/main.qml"));

@@ -7,6 +7,7 @@ QT += quick
 SOURCES += \
         ItemDataList.cpp \
         ListModelAAA.cpp \
+        controller.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -25,4 +26,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     ItemData.h \
     ItemDataList.h \
-    ListModelAAA.h
+    ListModelAAA.h \
+    controller.h
