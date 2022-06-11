@@ -101,9 +101,15 @@ Window {
                             }
                         }
 
-                        Label {
-                            text: model.roleInt
-                            width: 30
+                        Slider {
+                            from: 0
+                            to: 100
+                            value: model.roleInt
+
+                            onMoved: {
+                                model.roleInt = value;
+                            }
+                            width: 100
                         }
 
                         Label {
